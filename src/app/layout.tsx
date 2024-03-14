@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react'
 import { site } from '@/constant/site'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/components/providers/theme'
+import { Toaster } from '@/components/ui/sonner'
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
 				suppressHydrationWarning
 			>
 				<body className={font.className}>
-					<ThemeProvider defaultTheme='dark'>{children}</ThemeProvider>
+					<ThemeProvider defaultTheme='dark'>
+						{children}
+						<Toaster />
+					</ThemeProvider>
 				</body>
 			</html>
 		</ClerkProvider>

@@ -19,7 +19,10 @@ export const Sidebar = () => {
 						href={href}
 						className={cn(
 							'rouneded-e-md mr-6 flex items-center justify-between rounded-r-full bg-gradient-to-r from-transparent to-secondary/50 p-4 shadow-md',
-							{ 'bg-primary text-white': href === pathname }
+							{
+								'bg-primary text-white':
+									href.split('/')[1] === pathname.split('/')[1]
+							}
 						)}
 					>
 						<Icon className='h-6 w-6' />

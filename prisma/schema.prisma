@@ -50,11 +50,12 @@ model TodoList {
 
 model Todo {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  tile        String
+  title       String
   description String
   userId      String   @db.String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  markDone    Boolean  @default(false)
 
   tagIds String[] @db.ObjectId
   tags   Tag[]    @relation(fields: [tagIds], references: [id])

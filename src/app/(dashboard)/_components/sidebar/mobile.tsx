@@ -20,7 +20,7 @@ export const MobileSidebar = () => {
 						className={cn(
 							'flex flex-col items-center justify-between rounded-md bg-transparent object-contain p-2 sm:w-24',
 							{
-								'bg-primary': pathname === href
+								'bg-primary': pathname.split('/')[1] === href.split('/')[1]
 							}
 						)}
 					>

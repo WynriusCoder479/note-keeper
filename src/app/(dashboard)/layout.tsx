@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
 					<Sidebar />
 				</div>
 				<div className='relative flex h-full w-full flex-col overflow-y-auto bg-white bg-grid-black/5 dark:bg-background dark:bg-grid-white/5'>
-					<div className='flex-1'>{children}</div>
+					<div className='flex-1 '>{children}</div>
 					<MobileSidebar />
 				</div>
 			</div>
