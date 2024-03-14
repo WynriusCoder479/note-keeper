@@ -9,6 +9,76 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Note {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String   @db.String
+  userId    String   @db.String
+  isArchive Boolean  @default(false)
+  isPin     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tagIds String[] @db.ObjectId
+  tags   Tag[]    @relation(fields: [tagIds], references: [id])
+
+  @@index([id, title])
+}
+
+model TodoList {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  userId      String   @db.String
+  isArchive   Boolean  @default(false)
+  isPin       Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tagIds String[] @db.ObjectId
+  tags   Tag[]    @relation(fields: [tagIds], references: [id])
+
+  todos Todo[]
+
+  @@index([id, title])
+}
+
+model Todo {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  tile        String
+  description String
+  userId      String   @db.String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tagIds String[] @db.ObjectId
+  tags   Tag[]    @relation(fields: [tagIds], references: [id])
+
+  todoListId String   @db.ObjectId
+  todoList   TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
+
+  @@index([id, userId])
+}
+
+model Tag {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  noteIds String[] @db.ObjectId
+  notes   Note[]   @relation(fields: [noteIds], references: [id])
+
+  todoIds String[] @db.ObjectId
+  todos   Todo[]   @relation(fields: [todoIds], references: [id])
+
+  todoListIds String[]   @db.ObjectId
+  todoList    TodoList[] @relation(fields: [todoListIds], references: [id])
+
+  @@index([id, name])
 }
