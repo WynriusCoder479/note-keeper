@@ -5,10 +5,16 @@ import {
 	CardDescription,
 	CardHeader
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from '@/components/ui/tooltip'
 import { TodoItemSchemaType } from '@/lib/schemas/todo-list'
-import { Plus, Trash } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
+import { AddTodoCard } from './add-todo-card'
 
 type AddTodo = {
 	items: TodoItemSchemaType[]
@@ -70,53 +76,48 @@ export const AddTodo = ({ items, setItems }: AddTodo) => {
 				) : (
 					<div className='flex flex-col items-center gap-2 '>
 						<div className='max-h-[10rem] overflow-y-auto py-2'>
-							<div className='flex w-full flex-col items-center justify-center space-y-2 px-3'>
+							<div className='flex w-full flex-col items-center justify-center space-y-2 '>
 								{items.map((item, i) => {
 									const { title, description } = item
 
 									return (
-										<div
+										<AddTodoCard
 											key={i}
-											className='flex w-full items-center space-x-2'
-										>
-											<p>{i + 1}:</p>
-											<Input
-												className='w-1/3'
-												value={title}
-												placeholder='e.g Title'
-												onChange={e =>
-													onChangeTodo(i, e.currentTarget.value, 'title')
-												}
-											/>
-											<Input
-												value={description}
-												placeholder='e.g Descriptiom'
-												onChange={e =>
-													onChangeTodo(i, e.currentTarget.value, 'description')
-												}
-											/>
-											<Button
-												variant='destructive'
-												size='sm'
-												onClick={e => {
-													e.preventDefault()
-													onRemoveTodo(i)
-												}}
-											>
-												<Trash className='h-4 w-4' />
-											</Button>
-										</div>
+											title={title}
+											description={description}
+											index={i}
+											onChangeTodo={onChangeTodo}
+											onRemoveTodo={onRemoveTodo}
+										/>
 									)
 								})}
 							</div>
 						</div>
-						<div
-							onClick={onAddTodo}
-							className='mt-4 flex cursor-pointer items-center'
-						>
-							<Plus />
-							<p>Add more</p>
-						</div>
+						<TooltipProvider delayDuration={100}>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={e => {
+											e.preventDefault()
+
+											onAddTodo()
+										}}
+										variant='ghost'
+										disabled={items[items.length - 1].title === ''}
+									>
+										<Plus />
+										<p>Add more</p>
+									</Button>
+								</TooltipTrigger>
+								{items[items.length - 1].title === '' && (
+									<TooltipContent side='bottom'>
+										<p className='text-foreground/60'>
+											Fill a todo title to add more todo.
+										</p>
+									</TooltipContent>
+								)}
+							</Tooltip>
+						</TooltipProvider>
 					</div>
 				)}
 			</CardContent>

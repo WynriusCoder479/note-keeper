@@ -1,15 +1,15 @@
 'use client'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { CreatePrompt } from '../create-prompt'
 import { CreateNoteModal } from '../modal/create-note-modal'
-import { CreateNotePrompt } from './create-note-prompt'
 
 const NoPinnedNote = () => {
 	return (
 		<Dialog>
 			<div className='flex h-[25rem] w-full items-center justify-center '>
 				<DialogTrigger>
-					<CreateNotePrompt />
+					<CreatePrompt label='Notes' />
 				</DialogTrigger>
 			</div>
 			<CreateNoteModal />

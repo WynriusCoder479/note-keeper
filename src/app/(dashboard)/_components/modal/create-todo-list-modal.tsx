@@ -48,10 +48,11 @@ export const CreateTodoListModal = () => {
 			values.items = items
 
 			createTodoList(values).then(data => {
-				const { type, error, data: note } = data
+				const { type, error, data: todoLists } = data
 
-				if (type === 'success') {
-					router.push(`/todo-lists`)
+				if (type === 'success' && todoLists) {
+					if (todoLists.isPin) router.push(`/?tab=todo-list-board`)
+					else router.push(`/todo-lists`)
 
 					toast('Create Todo List successfully', {
 						description: Date.now()

@@ -43,6 +43,7 @@ export const createTodoList = async (values: CreateTodoListSchemaType) => {
 				return {
 					title: todoTitle,
 					description,
+					isPin,
 					todoListId: todoListCreated.id,
 					userId
 				}
@@ -53,7 +54,7 @@ export const createTodoList = async (values: CreateTodoListSchemaType) => {
 			})
 		}
 
-		const todoList = await db.todo.findUnique({
+		const todoList = await db.todoList.findUnique({
 			where: {
 				id: todoListCreated.id
 			}
