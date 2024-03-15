@@ -1,14 +1,19 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { ListTodo, Notebook, Split } from 'lucide-react'
 import { Poppins } from 'next/font/google'
-import NoteBoard from './_components/note-board'
-import TodoListBoard from './_components/todo-list-board'
-import { TabList } from './_components/tab-list'
+import NoteBoard from './_components/board/note-board'
+import { TabList } from './_components/board/tab-list'
+import TodoListBoard from './_components/board/todo-list-board'
+
+type BoardPageProps = {
+	searchParams: {
+		tab: string | undefined
+	}
+}
 
 const font = Poppins({ subsets: ['latin'], weight: ['700'] })
 
-export default async function Home() {
+export default function BoardPage({ searchParams: { tab } }: BoardPageProps) {
 	return (
 		<div className='flex w-full flex-col items-center space-y-6 pt-6'>
 			<div className='ml-6 mr-auto rounded-lg bg-gradient-to-r from-primary to-primary/50 p-2 shadow-lg'>
@@ -18,7 +23,7 @@ export default async function Home() {
 			</div>
 
 			<Tabs
-				defaultValue='note-board'
+				defaultValue={!tab ? 'note-board' : tab}
 				className='w-[90%]'
 			>
 				<TabList />

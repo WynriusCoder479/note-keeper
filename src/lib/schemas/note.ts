@@ -11,3 +11,12 @@ export const CreateNoteSchema = z.object({
 })
 
 export type CreateNoteSchemaType = z.infer<typeof CreateNoteSchema>
+
+export const UpdateNoteTitleSchema = z.object({
+	title: z.string({
+		required_error: 'Title is required',
+		invalid_type_error: 'Title is required'
+	})
+})
+
+export type UpdateNoteTitleSchemaType = z.infer<typeof UpdateNoteTitleSchema>

@@ -2,19 +2,19 @@
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { CreatePrompt } from '../create-prompt'
-import { CreateTodoListModal } from '../modal/create-todo-list-modal'
+import { CreateNoteModal } from '../../modal/create-note-modal'
 
-const NoPinnedTodoList = () => {
+const NoPinnedNote = () => {
 	return (
 		<Dialog>
 			<div className='flex h-[25rem] w-full items-center justify-center '>
 				<DialogTrigger>
-					<CreatePrompt label='todo lists' />
+					<CreatePrompt label='Notes' />
 				</DialogTrigger>
 			</div>
-			<CreateTodoListModal />
+			<CreateNoteModal />
 		</Dialog>
 	)
 }
 
-export default NoPinnedTodoList
+export default NoPinnedNote
