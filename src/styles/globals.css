@@ -106,6 +106,15 @@ body,
 	blockquote p {
 		@apply text-base font-medium italic leading-relaxed text-foreground/80;
 	}
+	p code {
+		@apply rounded-lg bg-primary/20 px-1.5 py-1;
+	}
+	pre {
+		@apply rounded-md bg-secondary/80 p-2;
+	}
+	pre code {
+		@apply bg-none p-0 text-inherit;
+	}
 }
 
 .grainy {

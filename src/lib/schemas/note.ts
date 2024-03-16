@@ -20,3 +20,11 @@ export const UpdateNoteTitleSchema = z.object({
 })
 
 export type UpdateNoteTitleSchemaType = z.infer<typeof UpdateNoteTitleSchema>
+
+export const UpdateNoteContentSchema = z.object({
+	content: z.string()
+})
+
+export type UpdateNoteContentSchemaType = z.infer<
+	typeof UpdateNoteContentSchema
+>

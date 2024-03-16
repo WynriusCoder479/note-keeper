@@ -10,7 +10,8 @@ import {
 } from '@/lib/schemas/note'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2, Trash } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -58,6 +59,16 @@ export const TitleBar = ({ noteId, title }: TitleBarProps) => {
 	return (
 		<div className='sticky inset-0 z-50 w-full bg-background px-4 py-2 shadow-md'>
 			<div className='flex w-full items-center justify-between'>
+				<Button
+					variant='ghost'
+					size='sm'
+					asChild
+				>
+					<Link href='/notes'>
+						<ArrowLeft className='h-6 w-6' />
+					</Link>
+				</Button>
+
 				{isEdit ? (
 					<Form {...form}>
 						<form
@@ -92,10 +103,11 @@ export const TitleBar = ({ noteId, title }: TitleBarProps) => {
 				)}
 
 				<Button
-					className='font-bold'
-					variant='outline'
+					className='hover:bg-destructive'
+					variant='ghost'
+					size='sm'
 				>
-					Save Note
+					<Trash className='h-6 w-6' />
 				</Button>
 			</div>
 		</div>

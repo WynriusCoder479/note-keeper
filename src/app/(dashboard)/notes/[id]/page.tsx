@@ -1,6 +1,6 @@
 import db from '@/lib/db'
 import { TitleBar } from './_components/title-bar'
-import Editor from '@/components/editor'
+import Editor from './_components/editor'
 
 type NoteIdPage = {
 	params: {
@@ -23,13 +23,11 @@ const NotesIdPage = async ({ params: { id } }: NoteIdPage) => {
 				noteId={note.id}
 				title={note.title}
 			/>
-			<div className='min-h-screen p-8'>
-				<div className='mx-auto max-w-4xl'>
-					<div className='w-full rounded-lg border border-foreground/10  px-4 py-8 shadow-xl backdrop-blur-xl'>
-						<Editor content={note.content} />
-					</div>
-				</div>
-			</div>
+
+			<Editor
+				content={note.content}
+				noteId={note.id}
+			/>
 		</div>
 	)
 }
