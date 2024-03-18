@@ -18,9 +18,10 @@ import {
 	Heading4Icon,
 	Heading5Icon,
 	Heading6Icon,
-	LucideIcon
+	LucideIcon,
+	WholeWordIcon
 } from 'lucide-react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 
 type MobileHeadingBarProps = {
 	editor: Editor
@@ -29,11 +30,16 @@ type MobileHeadingBarProps = {
 
 type HeadingType = {
 	label: string
-	icon: LucideIcon
+	icon: LucideIcon | string
 	handler: (editor: Editor) => void
 }
 
 const headings = [
+	{
+		label: 'Normal',
+		icon: 'n',
+		handler: editor => editor.chain().focus().setParagraph().run()
+	},
 	{
 		label: 'Heading 1',
 		icon: Heading1Icon,
@@ -71,9 +77,62 @@ export const MobileHeadingBar = ({
 	className
 }: MobileHeadingBarProps) => {
 	const [open, setOpen] = useState<boolean>(false)
-	const [heading, setHeading] = useState<
-		Pick<HeadingType, 'label' | 'icon'> | undefined
-	>(undefined)
+
+	const pickHeading = (headings: HeadingType[]) => {
+		let heading
+		if (editor.isActive('heading')) {
+			switch (editor.isActive('heading')) {
+				case editor.isActive('heading', { level: 1 }):
+					heading = headings[1]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+				case editor.isActive('heading', { level: 2 }):
+					heading = headings[2]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+				case editor.isActive('heading', { level: 3 }):
+					heading = headings[3]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+				case editor.isActive('heading', { level: 4 }):
+					heading = headings[4]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+				case editor.isActive('heading', { level: 5 }):
+					heading = headings[5]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+				case editor.isActive('heading', { level: 6 }):
+					heading = headings[6]
+					return (
+						<div className='flex w-full items-center justify-center gap-4'>
+							<heading.icon className='h-6 w-6' />
+						</div>
+					)
+			}
+		} else {
+			return (
+				<div className='flex w-full items-center  justify-center gap-4'>
+					<p className='text-lg'>n</p>
+				</div>
+			)
+		}
+	}
 
 	return (
 		<DropdownMenu
@@ -86,18 +145,14 @@ export const MobileHeadingBar = ({
 					className={cn(
 						'flex h-8 w-8 items-center justify-center gap-2 rounded-md p-1',
 						'hover:bg-gradient-to-t hover:from-primary/60 hover:to-transparent',
+						{
+							'is-active':
+								editor.isActive('heading') || editor.isActive('paragraph')
+						},
 						className
 					)}
 				>
-					{heading ? (
-						<div className='flex w-full items-center justify-center gap-4'>
-							<heading.icon className='h-6 w-6' />
-						</div>
-					) : (
-						<div className='flex w-full items-center  justify-center gap-4'>
-							<p className='text-lg'>n</p>
-						</div>
-					)}
+					{pickHeading(headings)}
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className='w-56'>
@@ -108,7 +163,6 @@ export const MobileHeadingBar = ({
 						<HeadingMenuItem
 							key={heading.label}
 							{...heading}
-							setHeading={setHeading}
 							editor={editor}
 						/>
 					))}
@@ -122,26 +176,23 @@ export const HeadingMenuItem = ({
 	icon: Icon,
 	label,
 	handler,
-	setHeading,
 	editor
 }: HeadingType & {
 	editor: Editor
-	setHeading: Dispatch<
-		SetStateAction<Pick<HeadingType, 'icon' | 'label'> | undefined>
-	>
 }) => {
 	return (
 		<DropdownMenuItem
 			onClick={() => {
-				setHeading({
-					label,
-					icon: Icon
-				})
 				handler(editor)
 			}}
-			className='flex items-center justify-between'
+			className='flex cursor-pointer items-center justify-between'
 		>
-			<Icon className='mr-2 h-6 w-6' />
+			{typeof Icon === 'string' ? (
+				<p className='text-lg'>n</p>
+			) : (
+				<Icon className='mr-2 h-6 w-6' />
+			)}
+
 			<span>{label}</span>
 		</DropdownMenuItem>
 	)

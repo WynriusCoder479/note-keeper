@@ -1,0 +1,97 @@
+.tiptap.ProseMirror {
+	outline: none;
+
+	> * + * {
+		margin-top: 0.75em;
+	}
+
+	blockquote {
+		@apply border-l-[3px] border-primary pl-4;
+	}
+
+	code {
+		@apply rounded-md bg-gradient-to-tr from-primary to-primary/50 decoration-clone p-1 text-base text-foreground;
+	}
+
+	ul,
+	ol {
+		@apply px-4 py-0;
+	}
+
+	ul {
+		@apply list-disc;
+	}
+
+	ol {
+		@apply list-decimal;
+	}
+
+	pre {
+		@apply rounded-md bg-background px-4 py-3 text-foreground;
+
+		code {
+			@apply bg-none p-0 text-sm text-inherit;
+		}
+	}
+
+	img {
+		@apply h-auto w-full;
+
+		&.ProseMirror-selectednode {
+			@apply outline-4 outline-primary;
+		}
+	}
+
+	table {
+		@apply m-0 w-full table-fixed border-separate overflow-hidden rounded-lg;
+
+		td,
+		th {
+			@apply relative border-2 border-solid border-foreground align-top;
+
+			> * {
+				@apply m-0;
+			}
+		}
+
+		th {
+			@apply bg-gradient-to-tr from-primary to-primary/80 p-2 text-left font-bold text-white;
+		}
+
+		.selectedCell::after {
+			background: rgba(200, 200, 255, 0.4);
+			content: '';
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			pointer-events: none;
+			position: absolute;
+			z-index: 2;
+		}
+
+		.column-resize-handle {
+			@apply absolute bottom-[-2px] right-[-2px] top-0 w-[4px] bg-primary;
+		}
+
+		p {
+			@apply m-0;
+		}
+
+		a {
+			@apply text-primary underline hover:text-primary/70;
+		}
+
+		.tableWrapper {
+			@apply px-0 py-4;
+		}
+
+		.resize-cursor {
+			@apply cursor-ew-resize;
+		}
+	}
+}
+
+.is-active {
+	@apply rounded-md bg-gradient-to-r from-primary/50 to-primary;
+}

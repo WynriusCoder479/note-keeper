@@ -25,7 +25,7 @@ type ListType = {
 	handler: (editor: Editor) => void
 }
 
-const headings = [
+const lists = [
 	{
 		label: 'Bullet list',
 		icon: ListIcon,
@@ -40,9 +40,34 @@ const headings = [
 
 export const MobileListBar = ({ editor, className }: MobileHeadingBarProps) => {
 	const [open, setOpen] = useState<boolean>(false)
-	const [list, setList] = useState<
-		Pick<ListType, 'label' | 'icon'> | undefined
-	>(undefined)
+
+	const pickList = () => {
+		if (editor.isActive('bulletlist')) {
+			const { icon: Icon } = lists[0]
+
+			return (
+				<div className='flex w-full items-center justify-center gap-4'>
+					<Icon className='h-6 w-6' />
+				</div>
+			)
+		}
+
+		if (editor.isActive('orderedlist')) {
+			const { icon: Icon } = lists[1]
+
+			return (
+				<div className='flex w-full items-center justify-center gap-4'>
+					<Icon className='h-6 w-6' />
+				</div>
+			)
+		}
+
+		return (
+			<div className='flex w-full items-center justify-center gap-4'>
+				<List className='h-6 w-6' />
+			</div>
+		)
+	}
 
 	return (
 		<DropdownMenu
@@ -58,26 +83,17 @@ export const MobileListBar = ({ editor, className }: MobileHeadingBarProps) => {
 						className
 					)}
 				>
-					{list ? (
-						<div className='flex w-full items-center justify-center gap-4'>
-							<list.icon className='h-6 w-6' />
-						</div>
-					) : (
-						<div className='flex w-full items-center  justify-center gap-4'>
-							<List className='h-6 w-6' />
-						</div>
-					)}
+					{pickList()}
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className='w-56'>
 				<DropdownMenuLabel>List</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup className='space-y-2'>
-					{headings.map(heading => (
+					{lists.map(list => (
 						<ListMenuItem
-							key={heading.label}
-							{...heading}
-							setList={setList}
+							key={list.label}
+							{...list}
 							editor={editor}
 						/>
 					))}
@@ -91,21 +107,13 @@ export const ListMenuItem = ({
 	icon: Icon,
 	label,
 	handler,
-	setList,
 	editor
 }: ListType & {
 	editor: Editor
-	setList: Dispatch<
-		SetStateAction<Pick<ListType, 'icon' | 'label'> | undefined>
-	>
 }) => {
 	return (
 		<DropdownMenuItem
 			onClick={() => {
-				setList({
-					label,
-					icon: Icon
-				})
 				handler(editor)
 			}}
 			className='flex items-center justify-between'

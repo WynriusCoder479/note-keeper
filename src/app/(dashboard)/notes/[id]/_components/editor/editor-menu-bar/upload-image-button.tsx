@@ -9,6 +9,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useChooseImageModal } from '@/hooks/use-choose-image-modal'
 import { useEmbedImageModal } from '@/hooks/use-embed-image-modal'
 import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
 import { cn } from '@/lib/utils'
@@ -17,6 +18,7 @@ import { BookImage, CloudUpload, ImagePlus, Link } from 'lucide-react'
 export const UploadImageButton = () => {
 	const { onOpen: onOpenUploadImageModal } = useUploadImageModal()
 	const { onOpen: onOpenEmbedImageModal } = useEmbedImageModal()
+	const { onOpen: onOpenChooseImageModal } = useChooseImageModal()
 
 	return (
 		<DropdownMenu>
@@ -51,7 +53,10 @@ export const UploadImageButton = () => {
 						<CloudUpload className='mr-2 h-4 w-4' />
 						<span>Upload image</span>
 					</DropdownMenuItem>
-					<DropdownMenuItem className='cursor-pointer'>
+					<DropdownMenuItem
+						className='cursor-pointer'
+						onClick={onOpenChooseImageModal}
+					>
 						<BookImage className='mr-2 h-4 w-4' />
 						<span>Choose in Album</span>
 					</DropdownMenuItem>

@@ -4,6 +4,14 @@ import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
+import Link from '@tiptap/extension-link'
+import BulletList from '@tiptap/extension-bullet-list'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import { useCallback, useEffect, useState, useTransition } from 'react'
@@ -11,14 +19,18 @@ import ImageResize from 'tiptap-extension-resize-image'
 
 import { updateNoteContent } from '@/actions/notes/update-note-content'
 
+import { useEmbedImageModal } from '@/hooks/use-embed-image-modal'
+import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
 import { cn } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
 import { Inter } from 'next/font/google'
 import EditorMenubar from './editor-menu-bar'
-import { UploadImageModal } from './modal/upload-image-modal'
-import { useDebounceValue } from 'usehooks-ts'
-import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
-import { useEmbedImageModal } from '@/hooks/use-embed-image-modal'
 import { InsertImageModal } from './modal/insert-image-modal'
+import { UploadImageModal } from './modal/upload-image-modal'
+import { useChooseImageModal } from '@/hooks/use-choose-image-modal'
+import { ChooseImageModal } from './modal/choose-image-modal'
+import { useAddLinkModal } from '@/hooks/use-add-link-modal'
+import { AddLinkModal } from './modal/add-link-modal'
 
 type EditorProps = {
 	content: string
@@ -30,22 +42,21 @@ const font = Inter({
 })
 
 const Editor = ({ content: noteContent, noteId }: EditorProps) => {
-	const [content, setContent] = useState<string>(noteContent)
-
-	const textAligment = TextAlign.configure({
-		types: ['heading', 'paragraph'],
-		defaultAlignment: 'left'
-	})
+	const [contentRecentlyChanged, setContentRecentlyChanged] =
+		useState<boolean>(false)
 
 	const [isSaveNote, startSaveNote] = useTransition()
 
-	const saveNote = useCallback(() => {
-		startSaveNote(() => {
-			updateNoteContent(noteId, {
-				content
+	const saveNote = useCallback(
+		(content: string) => {
+			startSaveNote(() => {
+				updateNoteContent(noteId, {
+					content
+				})
 			})
-		})
-	}, [content, noteId])
+		},
+		[noteId]
+	)
 
 	const editor = useEditor({
 		autofocus: true,
@@ -53,32 +64,63 @@ const Editor = ({ content: noteContent, noteId }: EditorProps) => {
 			StarterKit,
 			Image,
 			ImageResize,
-			textAligment,
+			TextAlign.configure({
+				types: ['heading', 'paragraph'],
+				defaultAlignment: 'left'
+			}),
 			CodeBlock,
-			Underline
+			Underline,
+			Table.configure({
+				resizable: true
+			}),
+			TableRow,
+			TableHeader,
+			TableCell,
+			ListItem,
+			BulletList,
+			OrderedList,
+			Link.configure({
+				openOnClick: false,
+				autolink: true,
+				HTMLAttributes: {
+					class:
+						'text-primary underline underline-offset-2 cursor-pointer hover:text-primary/60'
+				}
+			})
 		],
 		content: noteContent,
 		onUpdate: ({ editor }) => {
-			setContent(editor.getHTML())
+			if (!contentRecentlyChanged) {
+				setContentRecentlyChanged(true)
+			}
 		}
 	})
 
-	const [debounceContent] = useDebounceValue(content, 1000 * 5)
-
 	useEffect(() => {
-		if (debounceContent === '') return
+		const saveInterval = setTimeout(() => {
+			if (editor && contentRecentlyChanged) {
+				const currentContent = editor.getHTML()
 
-		saveNote()
-	}, [debounceContent, saveNote])
+				saveNote(currentContent)
+				setContentRecentlyChanged(false)
+			}
+
+			return () => clearTimeout(saveInterval)
+		}, 1000 * 5)
+	}, [editor, contentRecentlyChanged, saveNote])
 
 	const { open: openUploadImageModal, onClose: onCloseUploadImageModal } =
 		useUploadImageModal()
 	const { open: openEmbedImageModal, onClose: onCLoseEmbedImageModal } =
 		useEmbedImageModal()
+	const { open: openChooseImageModal, onClose: onCloseChooseImageModal } =
+		useChooseImageModal()
+	const { open: openAddLinkModal, onClose: onCloseAddLinkModal } =
+		useAddLinkModal()
 
 	return (
-		<>
-			{editor && (
+		<div>
+			{editor ? (
 				<>
 					<InsertImageModal
 						editor={editor}
@@ -90,27 +132,41 @@ const Editor = ({ content: noteContent, noteId }: EditorProps) => {
 						open={openUploadImageModal}
 						onClose={onCloseUploadImageModal}
 					/>
-				</>
-			)}
-			<div className='p-4'>
-				<div className='mx-auto max-w-4xl rounded-lg bg-secondary/50 shadow-lg backdrop-blur-lg'>
-					{editor && (
-						<EditorMenubar
-							editor={editor}
-							save={saveNote}
-							isPending={isSaveNote}
-						/>
-					)}
+					<ChooseImageModal
+						editor={editor}
+						open={openChooseImageModal}
+						onClose={onCloseChooseImageModal}
+					/>
+					<AddLinkModal
+						editor={editor}
+						open={openAddLinkModal}
+						onClose={onCloseAddLinkModal}
+					/>
 
-					<div className='prose prose-sm mt-4 max-h-[32rem] w-full overflow-y-auto p-4 md:max-h-[37rem]'>
-						<EditorContent
-							editor={editor}
-							className={cn(font.className)}
-						/>
+					<div className='p-4'>
+						<div className='mx-auto max-w-4xl rounded-lg bg-secondary/50 shadow-lg backdrop-blur-lg'>
+							<EditorMenubar
+								editor={editor}
+								isPending={isSaveNote}
+								save={saveNote}
+							/>
+
+							<div className='prose prose-sm mt-4 max-h-[32rem] w-full overflow-y-auto p-4 md:max-h-[37rem]'>
+								<EditorContent
+									editor={editor}
+									className={cn(font.className)}
+								/>
+							</div>
+						</div>
 					</div>
+				</>
+			) : (
+				<div className='flex h-32 w-full items-center justify-center'>
+					<Loader2 className='h-10 w-10 animate-spin' />
+					<p className='text-2xl font-bold'>Loading Note</p>
 				</div>
-			</div>
-		</>
+			)}
+		</div>
 	)
 }
 

@@ -18,6 +18,19 @@ export const HeadingBar = ({ editor, className }: HeadingBarProps) => {
 	return (
 		<>
 			<button
+				onClick={() => editor.chain().focus().setParagraph().run()}
+				className={cn(
+					'flex h-8 w-8 items-center justify-center rounded-md p-1',
+					'hover:bg-gradient-to-t hover:from-primary/60 hover:to-transparent',
+					{
+						'is-active': editor.isActive('paragraph')
+					},
+					className
+				)}
+			>
+				<p className='text-lg'>n</p>
+			</button>
+			<button
 				onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 				className={cn(
 					'flex h-8 w-8 items-center justify-center rounded-md p-1',
