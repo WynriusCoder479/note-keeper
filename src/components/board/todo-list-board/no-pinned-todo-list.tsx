@@ -1,8 +1,8 @@
 'use client'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
-import { CreatePrompt } from '../create-prompt'
-import { CreateTodoListModal } from '../../../../../components/modal/create-todo-list-modal'
+import { CreatePrompt } from '@/components/board/create-prompt'
+import { CreateTodoListModal } from '@/components/modal/create-todo-list-modal'
 
 const NoPinnedTodoList = () => {
 	return (

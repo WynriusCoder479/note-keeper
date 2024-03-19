@@ -1,8 +1,8 @@
 'use client'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
-import { CreatePrompt } from '../create-prompt'
-import { CreateNoteModal } from '../../../../../components/modal/create-note-modal'
+import { CreatePrompt } from '@/components/board/create-prompt'
+import { CreateNoteModal } from '@/components/modal/create-note-modal'
 
 const NoPinnedNote = () => {
 	return (

@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export const TabList = () => {
 	return (
-		<TabsList className='mb-4 grid h-fit w-full grid-cols-[1fr_auto_1fr] space-x-2 p-1.5'>
+		<TabsList className='sticky inset-0 top-5 z-10 mb-4 grid h-fit w-full grid-cols-[1fr_auto_1fr] space-x-2  p-1.5'>
 			<TabsTrigger
 				value='note-board'
 				asChild

@@ -29,7 +29,8 @@ export const Sidebar = () => {
 								'rouneded-e-md mr-6 flex items-center justify-between rounded-r-full bg-gradient-to-r from-transparent to-secondary/50 p-4 shadow-md',
 								{
 									'bg-primary text-white':
-										href.split('/')[1] === pathname.split('/')[1]
+										href.split('/')[1] === pathname.split('/')[1],
+									'bg-transparent': !open
 								}
 							)}
 						>

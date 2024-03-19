@@ -5,6 +5,25 @@
 		margin-top: 0.75em;
 	}
 
+	h1 {
+		@apply text-4xl font-black;
+	}
+	h2 {
+		@apply text-3xl font-bold;
+	}
+	h3 {
+		@apply text-2xl font-bold;
+	}
+	h4 {
+		@apply text-xl font-semibold;
+	}
+	h5 {
+		@apply text-lg font-semibold;
+	}
+	h6 {
+		@apply text-base font-semibold;
+	}
+
 	blockquote {
 		@apply border-l-[3px] border-primary pl-4;
 	}
