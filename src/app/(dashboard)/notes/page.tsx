@@ -15,7 +15,8 @@ const getAllNote = async () => {
 
 	const notes = await db.note.findMany({
 		where: {
-			userId
+			userId,
+			isArchive: false
 		}
 	})
 
@@ -28,12 +29,12 @@ const NotesPage = async () => {
 	if (notes.length === 0) return <NoPinnedNote />
 
 	return (
-		<div className='relative h-full w-full'>
+		<div className='container relative h-full w-full'>
 			<Dialog>
 				<DialogTrigger asChild>
 					<div
 						className={cn(
-							'fixed bottom-3 left-2 z-50 flex h-fit w-fit cursor-pointer items-center justify-center gap-2 rounded-md border-2 bg-background p-4 font-bold transition-all duration-150 ease-out',
+							'fixed bottom-3 right-2  z-50 flex h-fit w-fit cursor-pointer items-center justify-center gap-2 rounded-md border-2 bg-background p-4 font-bold transition-all duration-150 ease-out',
 							'hover:scale-105 active:scale-100'
 						)}
 					>

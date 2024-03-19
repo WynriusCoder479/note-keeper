@@ -1,17 +1,13 @@
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
-import { Poppins } from 'next/font/google'
+import NoteBoard from '@/components/board/note-board'
 import { TabList } from '@/components/board/tab-list'
 import TodoListBoard from '@/components/board/todo-list-board'
-import NoteBoard from '@/components/board/note-board'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 
 type BoardPageProps = {
 	searchParams: {
 		tab: string | undefined
 	}
 }
-
-const font = Poppins({ subsets: ['latin'], weight: ['700'] })
 
 export default function BoardPage({ searchParams: { tab } }: BoardPageProps) {
 	return (
@@ -20,7 +16,7 @@ export default function BoardPage({ searchParams: { tab } }: BoardPageProps) {
 				defaultValue={!tab ? 'note-board' : tab}
 				className='w-[90%]'
 			>
-				<TabList />
+				<TabList type='board' />
 				<TabsContent value='note-board'>
 					<NoteBoard />
 				</TabsContent>

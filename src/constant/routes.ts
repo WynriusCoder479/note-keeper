@@ -29,11 +29,7 @@ export const routes = [
 		icon: ListTodoIcon,
 		href: '/todo-lists'
 	},
-	{
-		name: 'History',
-		icon: HistoryIcon,
-		href: '/history'
-	},
+
 	{
 		name: 'Archive',
 		icon: ArchiveIcon,
@@ -56,11 +52,6 @@ export const routesMobile = [
 		name: 'Board',
 		icon: SquareKanbanIcon,
 		href: '/'
-	},
-	{
-		name: 'History',
-		icon: HistoryIcon,
-		href: '/history'
 	},
 	{
 		name: 'Archive',

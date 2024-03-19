@@ -12,7 +12,15 @@ import { formatTimeToNow } from '@/lib/utils'
 import { Note } from '@prisma/client'
 import { TooltipTrigger } from '@radix-ui/react-tooltip'
 import { format } from 'date-fns'
-import { Loader2, Pencil, Pin, PinOff, Trash } from 'lucide-react'
+import {
+	Archive,
+	ArchiveRestore,
+	Loader2,
+	Pencil,
+	Pin,
+	PinOff,
+	Trash
+} from 'lucide-react'
 import { NotePreview } from '../editor/preview-note'
 import { Button } from '../ui/button'
 import { Tooltip, TooltipContent, TooltipProvider } from '../ui/tooltip'
@@ -21,6 +29,8 @@ import { useCallback, useTransition } from 'react'
 import { pinOrUnpin } from '@/actions/notes/pin-or-unpin'
 import { toast } from 'sonner'
 import { removeNote } from '@/actions/notes/remove-note'
+import { archiveNote } from '@/actions/notes/archive-note'
+import { restoreNote } from '@/actions/notes/restore-note'
 
 type NotePreviewCardProps = {
 	note: Note
@@ -28,7 +38,9 @@ type NotePreviewCardProps = {
 
 export const NotePreviewCard = ({ note }: NotePreviewCardProps) => {
 	const [isPinNotePending, startPinNoteTransition] = useTransition()
-	const [isRemoveNotePending, startRemoveTransition] = useTransition()
+	const [isRemoveNotePending, startRemoveNoteTransition] = useTransition()
+	const [isArchiveNotePending, startArchiveNoteTransition] = useTransition()
+	const [isRestoreNotePending, startRestoreNoteTransition] = useTransition()
 
 	const onPinOrUnpinNote = useCallback(() => {
 		startPinNoteTransition(async () => {
@@ -43,7 +55,7 @@ export const NotePreviewCard = ({ note }: NotePreviewCardProps) => {
 	}, [note.id])
 
 	const onRemoveNote = useCallback(() => {
-		startRemoveTransition(async () => {
+		startArchiveNoteTransition(async () => {
 			const { type } = await removeNote(note.id)
 
 			if (type === 'success') {
@@ -54,27 +66,112 @@ export const NotePreviewCard = ({ note }: NotePreviewCardProps) => {
 		})
 	}, [note.id])
 
+	const onArchiveNote = useCallback(() => {
+		startRemoveNoteTransition(async () => {
+			const { type } = await archiveNote(note.id)
+
+			if (type === 'success') {
+				toast('Archive note successfully', {
+					description: format(Date.now(), 'yyyy-MM-dd')
+				})
+			}
+		})
+	}, [note.id])
+
+	const onRestoreNote = useCallback(() => {
+		startRestoreNoteTransition(async () => {
+			const { type } = await restoreNote(note.id)
+
+			if (type === 'success') {
+				toast('Restore note successfully', {
+					description: format(Date.now(), 'yyyy-MM-dd')
+				})
+			}
+		})
+	}, [note.id])
+
 	return (
 		<Card className='relative h-fit w-[350px]'>
-			<Button
-				variant='ghost'
-				size='sm'
-				className='absolute right-1 top-1'
-				onClick={onPinOrUnpinNote}
-				disabled={isPinNotePending}
-			>
-				{isPinNotePending ? (
-					<Loader2 className='h-5 w-5 animate-spin' />
+			<div className='absolute right-1 top-1 flex items-center gap-3 '>
+				{!note.isArchive ? (
+					<TooltipProvider>
+						<Tooltip delayDuration={50}>
+							<TooltipTrigger asChild>
+								<Button
+									variant='ghost'
+									onClick={onArchiveNote}
+								>
+									{isArchiveNotePending ? (
+										<Loader2 className='h-5 w-5 animate-spin' />
+									) : (
+										<Archive className='h-5 w-5' />
+									)}
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent
+								className='bg-yellow-500 text-white'
+								side='bottom'
+							>
+								<p>Archive note</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				) : (
-					<>
-						{note.isPin ? (
-							<Pin className='h-5 w-5 rotate-45' />
-						) : (
-							<PinOff className='h-5 w-5' />
-						)}
-					</>
+					<TooltipProvider>
+						<Tooltip delayDuration={50}>
+							<TooltipTrigger asChild>
+								<Button
+									variant='ghost'
+									onClick={onRestoreNote}
+								>
+									{isRestoreNotePending ? (
+										<Loader2 className='h-5 w-5 animate-spin' />
+									) : (
+										<ArchiveRestore className='h-5 w-5' />
+									)}
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent
+								className='bg-primary text-white'
+								side='bottom'
+							>
+								<p>Restore note</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				)}
-			</Button>
+
+				<TooltipProvider>
+					<Tooltip delayDuration={50}>
+						<TooltipTrigger asChild>
+							<Button
+								variant='ghost'
+								size='sm'
+								onClick={onPinOrUnpinNote}
+								disabled={isPinNotePending}
+							>
+								{isPinNotePending ? (
+									<Loader2 className='h-5 w-5 animate-spin' />
+								) : (
+									<>
+										{note.isPin ? (
+											<Pin className='h-5 w-5 rotate-45' />
+										) : (
+											<PinOff className='h-5 w-5' />
+										)}
+									</>
+								)}
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent
+							className='bg-primary text-white'
+							side='bottom'
+						>
+							<p>{note.isPin ? 'Unpin' : 'Pin'}</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			</div>
 			<CardHeader className='gap-y-2'>
 				<CardTitle className='text-3xl font-black'>{note.title}</CardTitle>
 				<CardDescription className='flex flex-col '>
