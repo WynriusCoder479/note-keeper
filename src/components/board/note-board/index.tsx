@@ -25,8 +25,8 @@ const NoteBoard = async () => {
 	if (notes.length === 0) return <NoPinnedNote />
 
 	return (
-		<div className='container h-full w-full'>
-			<div className='mx-auto flex flex-wrap justify-center gap-4 p-4 pt-10'>
+		<div className='relative h-full w-full lg:container'>
+			<div className='flex flex-wrap justify-center gap-4 p-4 pt-10'>
 				{notes.map(note => (
 					<NotePreviewCard
 						key={note.id}

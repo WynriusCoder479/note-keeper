@@ -24,6 +24,8 @@ type NotePreviewProps = {
 }
 
 export const NotePreview = ({ content }: NotePreviewProps) => {
+	const [isMounted, setIsMounted] = useState(false)
+
 	const editor = useEditor({
 		autofocus: true,
 		extensions: [
@@ -58,6 +60,12 @@ export const NotePreview = ({ content }: NotePreviewProps) => {
 		editable: false
 	})
 
+	useEffect(() => {
+		if (editor) {
+			setIsMounted(true)
+		}
+	}, [editor])
+
 	return (
 		<div
 			className={cn(
@@ -68,11 +76,15 @@ export const NotePreview = ({ content }: NotePreviewProps) => {
 			)}
 		>
 			<div className='absolute inset-0 z-10 w-full bg-gradient-to-t from-transparent from-10% via-foreground/20 via-60% to-primary/70' />
-			{editor ? (
-				<EditorContent editor={editor} />
-			) : (
-				<Loader2 className='h-6 w-6 animate-spin' />
-			)}
+			{isMounted ? (
+				<>
+					{editor ? (
+						<EditorContent editor={editor} />
+					) : (
+						<Loader2 className='h-6 w-6 animate-spin' />
+					)}
+				</>
+			) : null}
 		</div>
 	)
 }

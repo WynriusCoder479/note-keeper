@@ -172,7 +172,7 @@ export const NotePreviewCard = ({ note }: NotePreviewCardProps) => {
 					</Tooltip>
 				</TooltipProvider>
 			</div>
-			<CardHeader className='gap-y-2'>
+			<CardHeader className='gap-y-2 pt-12'>
 				<CardTitle className='text-3xl font-black'>{note.title}</CardTitle>
 				<CardDescription className='flex flex-col '>
 					<p>

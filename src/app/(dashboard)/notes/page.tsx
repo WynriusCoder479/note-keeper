@@ -29,7 +29,7 @@ const NotesPage = async () => {
 	if (notes.length === 0) return <NoPinnedNote />
 
 	return (
-		<div className='container relative h-full w-full'>
+		<div className='relative h-full w-full md:container'>
 			<Dialog>
 				<DialogTrigger asChild>
 					<div
