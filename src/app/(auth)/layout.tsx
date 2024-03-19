@@ -1,16 +1,16 @@
 import { Meteors } from '@/components/ui/meteors'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { PropsWithChildren } from 'react'
-import { Brading } from './_component/branding'
-import { Features } from './_component/features'
-import { Quote } from './_component/quote'
+import { Brading } from '@/components/auth/branding'
+import { Features } from '@/components/auth/features'
+import { Quote } from '@/components/auth/quote'
 
 const AuthLayout = ({ children }: PropsWithChildren) => {
 	return (
-		<div className='dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex h-full w-full items-center justify-center bg-white dark:bg-black '>
+		<div className='relative flex h-full w-full items-center justify-center bg-white bg-grid-black/[0.2] dark:bg-black dark:bg-grid-white/[0.2] '>
 			<div className='pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black'></div>
 			<div className='flex h-[50rem] w-[1208px] overflow-hidden rounded-lg '>
-				<div className='bg-radial-at-t relative hidden w-1/2 from-primary via-primary/50 to-transparent lg:block'>
+				<div className='relative hidden w-1/2 bg-radial-at-t from-primary via-primary/50 to-transparent lg:block'>
 					<div className='absolute bottom-2 right-2 z-50'>
 						<ThemeToggle />
 					</div>

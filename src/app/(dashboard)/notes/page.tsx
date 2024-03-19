@@ -23,7 +23,7 @@ const NotesPage = async () => {
 	if (notes.length === 0) return <div>No notes</div>
 
 	return (
-		<div className='flex flex-col gap-2 p-4'>
+		<div className='flex flex-wrap gap-3 p-4'>
 			{notes.map(note => (
 				<Link
 					key={note.id}

@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 import { PropsWithChildren } from 'react'
-import { Navbar } from './_components/navbar'
-import { Sidebar } from './_components/sidebar'
-import { MobileSidebar } from './_components/sidebar/mobile'
+import { Navbar } from '@/components/navbar'
+import { Sidebar } from '@/components/sidebar'
+import { MobileSidebar } from '@/components/sidebar/mobile'
 
 export const metadata = {
 	title: 'Dashboard'

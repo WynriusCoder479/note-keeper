@@ -1,6 +1,6 @@
 import db from '@/lib/db'
-import { TitleBar } from './_components/title-bar'
-import Editor from './_components/editor'
+import { TitleBar } from '@/components/note/title-bar'
+import Editor from '@/components/editor'
 
 type NoteIdPage = {
 	params: {

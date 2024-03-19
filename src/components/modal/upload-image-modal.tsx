@@ -2,7 +2,7 @@
 
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Editor } from '@tiptap/react'
-import { UploadImage } from '../utils/upload-image'
+import { UploadImage } from '@/components/utils/upload-image'
 
 type UploadImageModalProps = {
 	editor: Editor

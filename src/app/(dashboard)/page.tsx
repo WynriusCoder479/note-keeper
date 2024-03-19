@@ -1,9 +1,9 @@
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { Poppins } from 'next/font/google'
-import NoteBoard from './_components/board/note-board'
-import { TabList } from './_components/board/tab-list'
-import TodoListBoard from './_components/board/todo-list-board'
+import { TabList } from '@/components/board/tab-list'
+import TodoListBoard from '@/components/board/todo-list-board'
+import NoteBoard from '@/components/board/note-board'
 
 type BoardPageProps = {
 	searchParams: {

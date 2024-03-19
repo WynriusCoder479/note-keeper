@@ -1,4 +1,6 @@
 'use client'
+import { Inter } from 'next/font/google'
+import { cn } from '@/lib/utils'
 
 import CodeBlock from '@tiptap/extension-code-block'
 import Image from '@tiptap/extension-image'
@@ -12,25 +14,25 @@ import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Link from '@tiptap/extension-link'
 import BulletList from '@tiptap/extension-bullet-list'
+import ImageResize from 'tiptap-extension-resize-image'
+
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import { useCallback, useEffect, useState, useTransition } from 'react'
-import ImageResize from 'tiptap-extension-resize-image'
+import { useEmbedImageModal } from '@/hooks/use-embed-image-modal'
+import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
 
 import { updateNoteContent } from '@/actions/notes/update-note-content'
 
-import { useEmbedImageModal } from '@/hooks/use-embed-image-modal'
-import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
-import { cn } from '@/lib/utils'
-import { Loader2 } from 'lucide-react'
-import { Inter } from 'next/font/google'
-import EditorMenubar from './editor-menu-bar'
-import { InsertImageModal } from './modal/insert-image-modal'
-import { UploadImageModal } from './modal/upload-image-modal'
+import EditorMenubar from '@/components/editor/editor-menu-bar'
+import { InsertImageModal } from '@/components/modal/insert-image-modal'
+import { UploadImageModal } from '@/components/modal/upload-image-modal'
 import { useChooseImageModal } from '@/hooks/use-choose-image-modal'
-import { ChooseImageModal } from './modal/choose-image-modal'
+import { ChooseImageModal } from '@/components/modal/choose-image-modal'
 import { useAddLinkModal } from '@/hooks/use-add-link-modal'
-import { AddLinkModal } from './modal/add-link-modal'
+import { AddLinkModal } from '@/components/modal/add-link-modal'
+
+import { Loader2 } from 'lucide-react'
 
 type EditorProps = {
 	content: string

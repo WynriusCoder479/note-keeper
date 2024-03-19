@@ -18,7 +18,7 @@ interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 	type?: string
 	disabled?: boolean
 	disabledErrorMessage?: boolean
-	className: string
+	className?: string
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
