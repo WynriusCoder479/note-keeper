@@ -6,10 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
-		"db:push": "prisma db push",
-		"db:gen": "prisma generate",
-		"ui:add": "shadcn-ui add"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^4.29.9",
