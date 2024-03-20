@@ -11,14 +11,13 @@ import {
 	DialogTitle
 } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Image as ImageType } from '@prisma/client'
-import { Editor } from '@tiptap/react'
-import Image from 'next/image'
-import { X } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
 import { useUploadImageModal } from '@/hooks/use-upload-image-modal'
 import { useEdgeStore } from '@/lib/edgestore'
-import { toast } from 'sonner'
+import { Image as ImageType } from '@prisma/client'
+import { Editor } from '@tiptap/react'
+import { X } from 'lucide-react'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 
 type InsertImageModalProps = {
 	editor: Editor

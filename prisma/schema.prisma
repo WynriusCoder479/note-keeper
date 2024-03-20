@@ -24,9 +24,6 @@ model Note {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tagIds String[] @db.ObjectId
-  tags   Tag[]    @relation(fields: [tagIds], references: [id])
-
   @@index([id, title])
 }
 
@@ -39,9 +36,6 @@ model TodoList {
   isPin       Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  tagIds String[] @db.ObjectId
-  tags   Tag[]    @relation(fields: [tagIds], references: [id])
 
   todos Todo[]
 
@@ -57,31 +51,10 @@ model Todo {
   updatedAt   DateTime @updatedAt
   markDone    Boolean  @default(false)
 
-  tagIds String[] @db.ObjectId
-  tags   Tag[]    @relation(fields: [tagIds], references: [id])
-
   todoListId String   @db.ObjectId
   todoList   TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
 
   @@index([id, userId])
-}
-
-model Tag {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-
-  noteIds String[] @db.ObjectId
-  notes   Note[]   @relation(fields: [noteIds], references: [id])
-
-  todoIds String[] @db.ObjectId
-  todos   Todo[]   @relation(fields: [todoIds], references: [id])
-
-  todoListIds String[]   @db.ObjectId
-  todoList    TodoList[] @relation(fields: [todoListIds], references: [id])
-
-  @@index([id, name])
 }
 
 model Album {

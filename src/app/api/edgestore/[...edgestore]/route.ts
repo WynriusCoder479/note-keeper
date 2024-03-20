@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs'
 import { initEdgeStore } from '@edgestore/server'
 import { createEdgeStoreNextHandler } from '@edgestore/server/adapters/next/app'
 

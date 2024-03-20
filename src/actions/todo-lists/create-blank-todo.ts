@@ -4,31 +4,30 @@ import db from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { revalidatePath } from 'next/cache'
 
-export const archiveNote = async (noteId: string) => {
+export const createBlankTodo = async (todoListId: string) => {
 	const { userId } = auth()
 
 	if (!userId)
 		return {
 			type: 'error',
-			error: 'Unaithorize'
+			error: 'Unauthorize'
 		}
 
 	try {
-		await db.note.update({
-			where: {
-				id: noteId
-			},
+		const newBlankTodo = await db.todo.create({
 			data: {
-				isArchive: true,
-				isPin: false
+				userId,
+				title: 'New Title',
+				description: 'New Description',
+				todoListId
 			}
 		})
 
-		revalidatePath('/notes')
+		revalidatePath('/todo-lists')
 
 		return {
 			type: 'success',
-			data: 'Remove note successfully'
+			data: newBlankTodo
 		}
 	} catch (error) {
 		throw error

@@ -1,8 +1,8 @@
 import db from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
-
-import { NoStoreItem } from './no-strore-item'
+import { TodoListCard } from '@/components/todo/todo-list-card'
+import { NoStoreItem } from '@/components/archive/no-strore-item'
 
 const getPinnedNote = async () => {
 	const { userId } = auth()
@@ -13,6 +13,9 @@ const getPinnedNote = async () => {
 		where: {
 			userId,
 			isArchive: true
+		},
+		include: {
+			todos: true
 		}
 	})
 
@@ -24,7 +27,18 @@ const TodoListStore = async () => {
 
 	if (todoLists.length === 0) return <NoStoreItem type='todo list' />
 
-	return <div className='h-full w-full'>Todo</div>
+	return (
+		<div className='h-full w-full'>
+			<div className='mx-auto flex flex-wrap justify-center gap-4 p-4 pt-10'>
+				{todoLists.map(todoList => (
+					<TodoListCard
+						key={todoList.id}
+						todoList={todoList}
+					/>
+				))}
+			</div>
+		</div>
+	)
 }
 
 export default TodoListStore

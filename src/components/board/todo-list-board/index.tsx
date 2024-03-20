@@ -1,8 +1,7 @@
-import { TodoList } from '@prisma/client'
-import NoPinnedTodoList from './no-pinned-todo-list'
+import db from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
-import db from '@/lib/db'
+import NoPinnedTodoList from './no-pinned-todo-list'
 
 const getPinnedTodoLists = async () => {
 	const { userId } = auth()

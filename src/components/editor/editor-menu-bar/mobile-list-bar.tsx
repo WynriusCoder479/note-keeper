@@ -12,7 +12,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Editor } from '@tiptap/react'
 import { List, ListIcon, ListOrderedIcon, LucideIcon } from 'lucide-react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 
 type MobileHeadingBarProps = {
 	editor: Editor

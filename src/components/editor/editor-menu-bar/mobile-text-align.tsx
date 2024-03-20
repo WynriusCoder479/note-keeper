@@ -15,7 +15,6 @@ import {
 	AlignCenter,
 	AlignLeftIcon,
 	AlignRightIcon,
-	List,
 	LucideIcon
 } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'

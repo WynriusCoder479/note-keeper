@@ -22,5 +22,17 @@ export const CreateTodoListSchema = z.object({
 	items: z.array(TodoItemSchema)
 })
 
+export const UpdateTitleTodoSchema = z.object({
+	title: z.string()
+})
+
+export const UpdateDescriptionTodoSchema = z.object({
+	description: z.string()
+})
+
+export type UpdateDescriptionTodoSchemaType = z.infer<
+	typeof UpdateDescriptionTodoSchema
+>
+export type UpdateTitleTodoSchemaType = z.infer<typeof UpdateTitleTodoSchema>
 export type CreateTodoListSchemaType = z.infer<typeof CreateTodoListSchema>
 export type TodoItemSchemaType = z.infer<typeof TodoItemSchema>

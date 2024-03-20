@@ -4,7 +4,7 @@ import db from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { revalidatePath } from 'next/cache'
 
-export const archiveNote = async (noteId: string) => {
+export const restoreTodoList = async (todoList: string) => {
 	const { userId } = auth()
 
 	if (!userId)
@@ -14,17 +14,16 @@ export const archiveNote = async (noteId: string) => {
 		}
 
 	try {
-		await db.note.update({
+		await db.todoList.update({
 			where: {
-				id: noteId
+				id: todoList
 			},
 			data: {
-				isArchive: true,
-				isPin: false
+				isArchive: false
 			}
 		})
 
-		revalidatePath('/notes')
+		revalidatePath('/todo-lists')
 
 		return {
 			type: 'success',

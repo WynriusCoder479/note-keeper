@@ -18,8 +18,7 @@ import {
 	Heading4Icon,
 	Heading5Icon,
 	Heading6Icon,
-	LucideIcon,
-	WholeWordIcon
+	LucideIcon
 } from 'lucide-react'
 import { useState } from 'react'
 

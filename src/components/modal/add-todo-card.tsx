@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Trash } from 'lucide-react'
-import { useState } from 'react'
 
 type AddTodoCardProps = {
 	title: string
